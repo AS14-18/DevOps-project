@@ -3,6 +3,8 @@ const dotenv = require('dotenv');
 const { MongoClient, ObjectId } = require('mongodb');
 const cors = require('cors');          
 dotenv.config();
+const authRoutes = require('./routes/authRoutes');
+const verifyToken = require('./middleware/authMiddleware');
 
 const url = process.env.MONGO_URI || 'mongodb://localhost:27017';
 const client = new MongoClient(url);
@@ -13,13 +15,13 @@ const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cors());             
-
+app.use('/api/auth', authRoutes);
 async function start() {
   try {
     await client.connect();
     console.log('MongoDB connected to', url);
 
-    app.get('/', async (req, res) => {
+    app.get('/', verifyToken,async (req, res) => {
       try {
         const db = client.db(dbName);
         const collection = db.collection('documents');
@@ -31,7 +33,7 @@ async function start() {
       }
     });
 
-    app.post('/', async (req, res) => {
+    app.post('/', verifyToken,async (req, res) => {
       try {
         const db = client.db(dbName);
         const collection = db.collection('documents');
@@ -53,7 +55,7 @@ async function start() {
       }
     });
 
-    app.delete('/:id', async (req, res) => {
+    app.delete('/:id',verifyToken, async (req, res) => {
       try {
         const id = req.params.id;
 
