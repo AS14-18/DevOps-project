@@ -1,28 +1,21 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
-import ProtectedRoute from "./utils/ProtectedRoute";
-import Navbar from "./components/Navbar";
-import Manager from "./components/Manager";
-import Footer from "./components/Footer";
+import { useState } from 'react'
+import './App.css'
+import Navbar from './components/Navbar'
+import Manager from './components/Manager'
+import Footer from './components/footer'
 
 function App() {
+  const [count, setCount] = useState(0)
+
   return (
-    <BrowserRouter>
-      <Navbar />
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route
-          path="/"
-          element={
-            <ProtectedRoute>
-              <Manager />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-      <Footer />
-    </BrowserRouter>
-  );
+    <>
+    <Navbar/>
+ 
+     <Manager/>
+   
+    <Footer/>
+    </>
+  )
 }
 
-export default App;
+export default App
