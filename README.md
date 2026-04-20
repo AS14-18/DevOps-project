@@ -3,12 +3,11 @@
 *A modern password manager with complete DevOps integration*
 
 [![GitHub](https://img.shields.io/badge/GitHub-Repository-black?style=for-the-badge&logo=github)](https://github.com/yourusername/passop)
-[![Docker](https://img.shields.io/badge/Docker-Container-blue?style=for-the-badge&logo=docker)](https://hub.docker.com/r/yourusername/passop)
 [![CI/CD](https://img.shields.io/badge/CI/CD-GitHub%20Actions-green?style=for-the-badge&logo=github-actions)](https://github.com/yourusername/passop/actions)
 [![Node.js](https://img.shields.io/badge/Node.js-18+-green?style=for-the-badge&logo=node.js)](https://nodejs.org/)
 [![React](https://img.shields.io/badge/React-19+-blue?style=for-the-badge&logo=react)](https://reactjs.org/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Database-green?style=for-the-badge&logo=mongodb)](https://www.mongodb.com/)
-
+[![Vercel](https://img.shields.io/badge/Vercel-Deployed-black?style=for-the-badge&logo=vercel)](https://your-app.vercel.app)
 ---
 
 ## 🎯 Problem Statement
@@ -24,41 +23,76 @@ PassOp follows a modern full-stack architecture with a React-based frontend, Nod
 ### 📊 Architecture Diagram
 
 ```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   🎨 Frontend   │    │   ⚡ Backend     │    │   💾 Database   │
-│   (React/Vite)  │◄──►│   (Express.js)  │◄──►│   (MongoDB)     │
-│   Port: 5173    │    │   Port: 3000    │    │   Port: 27017   │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-         │                        │                        │
-         ▼                        ▼                        ▼
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│ 🐳 Docker       │    │ 🔐 Auth Service │    │ 📦 Deployment   │
-│ Container       │    │ (Node.js)       │    │ (GitHub Actions)│
-│ Registry        │    │ Port: 4000      │    │                 │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
+┌────────────────────────────┐        ┌────────────────────────────┐        ┌────────────────────────────┐
+│   🎨 Frontend              │        │   ⚡ Backend                │        │   💾 Database              │
+│   (React / Vite)           │◄──────►│   (Express.js API)         │◄──────►│   (MongoDB Atlas)         │
+│   Hosted on Vercel         │        │   Hosted on Render         │        │   Cloud Database          │
+│   https://your-app.vercel.app │    │   https://your-api.onrender.com │   │   Cluster URL             │
+└────────────────────────────┘        └────────────────────────────┘        └────────────────────────────┘
+             │                                      │
+             ▼                                      ▼
+┌────────────────────────────┐        ┌────────────────────────────┐
+│ 🌐 CDN + Edge Network      │        │ 🔐 Auth Service            │
+│ (Handled by Vercel)        │        │ (Node.js / JWT / OAuth)    │
+└────────────────────────────┘        └────────────────────────────┘
+
+                     ▼
+        ┌────────────────────────────┐
+        │ 📦 CI/CD Pipeline          │
+        │ (GitHub Actions)           │
+        │ → Auto deploy to Vercel    │
+        │ → Auto deploy to Render    │
+        └────────────────────────────┘
 ```
 
 ### 📁 Project Structure
 
 ```
 DevOps-project/
-├── 🎨 src/                          # Frontend React application
-│   ├── components/                  # Reusable UI components
-│   ├── App.jsx                      # Main application component
-│   └── main.jsx                     # Application entry point
-├── ⚡ backend/                       # Main backend service
-│   ├── server.js                    # Express server setup
-│   └── package.json                 # Backend dependencies
-├── 🔐 nodejs-auth/                  # Authentication service
-│   ├── controllers/                 # Auth controllers
-│   ├── models/                      # User models
-│   ├── routes/                      # API routes
-│   ├── middleware/                  # Auth middleware
-│   └── database/                    # Database connection
-├── 🐳 Dockerfile                    # Container configuration
-├── 🚀 .github/workflows/            # CI/CD pipelines
-├── 📋 package.json                  # Frontend dependencies
-└── ⚙️ vite.config.js                # Build configuration
+├── .github/
+│   └── workflows/
+│       └── ci.yml                 # CI/CD pipeline (GitHub Actions)
+
+├── backend/                       # Main backend (Express.js API)
+│   ├── node_modules/
+│   ├── .env
+│   ├── .env.example
+│   ├── package.json
+│   ├── package-lock.json
+│   └── server.js
+
+├── nodejs-auth/                   # Authentication service
+│   ├── controllers/
+│   ├── database/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── .gitignore
+│   ├── package.json
+│   ├── package-lock.json
+│   └── server.js
+
+├── public/                        # Static assets
+│   └── vite.svg
+
+├── src/                           # Frontend (React + Vite)
+│   ├── assets/
+│   │   └── react.svg
+│   ├── components/
+│   ├── App.css
+│   ├── App.jsx
+│   ├── index.css
+│   └── main.jsx
+
+├── .gitignore
+├── index.html                     # Entry HTML
+├── package.json                   # Frontend dependencies
+├── package-lock.json
+├── eslint.config.js
+├── postcss.config.js
+├── tailwind.config.js
+├── vite.config.js
+├── README.md
 ```
 
 ---
@@ -70,9 +104,6 @@ Automated testing phase that runs unit tests, integration tests, and linting for
 
 ### 🔒 Security Scanning
 Comprehensive security analysis including dependency vulnerability checks, code security scans, and container image scanning using tools like Snyk and Trivy.
-
-### 🐳 Docker Build & Validation
-Multi-stage Docker build process that creates optimized container images for all services, followed by image validation and security scanning.
 
 ### 📦 Deployment
 Automated deployment to staging and production environments with blue-green deployment strategy, health checks, and rollback capabilities.
@@ -107,7 +138,6 @@ PassOp uses a feature branch workflow with Git Flow principles, ensuring clean c
 | ⚡ Node.js | Backend Runtime | Server-side JavaScript, npm ecosystem |
 | 📊 Express.js | Web Framework | RESTful APIs, middleware, routing |
 | 💾 MongoDB | Database | NoSQL document storage, flexible schemas |
-| 🐳 Docker | Containerization | Application packaging, environment consistency |
 | 🚀 GitHub Actions | CI/CD | Automated testing, deployment pipelines |
 | 🔐 JWT | Authentication | Secure token-based auth, stateless sessions |
 | 🎨 Tailwind CSS | Styling | Utility-first CSS, responsive design |
@@ -130,10 +160,6 @@ PassOp uses a feature branch workflow with Git Flow principles, ensuring clean c
 ### 🎨 Application Running
 ![PassOp Interface](https://via.placeholder.com/800x400/9C27B0/FFFFFF?text=PassOp+Interface)
 *Main application interface showing password management dashboard.*
-
-### ✅ Deploy to Docker Hub Job Success
-![Docker Hub Deployment](https://via.placeholder.com/800x400/FF9800/FFFFFF?text=Docker+Hub+Deploy)
-*Successful Docker image push to registry with version tagging.*
 
 ---
 
@@ -169,16 +195,8 @@ PassOp uses a feature branch workflow with Git Flow principles, ensuring clean c
 ✅ **Solution:** Implemented comprehensive CORS middleware and standardized API response structure with proper error handling.
 🎉 **Outcome:** Seamless frontend-backend communication with consistent user experience.
 
-### 🔴 Challenge 5: Container Image Optimization
-🚫 **Problem:** Large Docker images causing slow deployments and increased storage costs.
-**Root Cause:** Including unnecessary files and dependencies in production images.
-✅ **Solution:** Adopted multi-stage Docker builds with:
-- Separate build and runtime stages
-- Alpine Linux base images
-- Selective file copying
-🎉 **Outcome:** 70% reduction in image size and faster deployment times.
 
-### 🔴 Challenge 6: Testing Coverage Gaps
+### 🔴 Challenge 5: Testing Coverage Gaps
 🚫 **Problem:** Insufficient test coverage leading to undetected bugs in production.
 **Root Cause:** Lack of comprehensive testing strategy and automated test execution.
 ✅ **Solution:** Implemented:
