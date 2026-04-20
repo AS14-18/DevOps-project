@@ -61,8 +61,6 @@ Automated testing phase that runs unit tests, integration tests, and linting for
 ### 🔒 Security Scanning
 Comprehensive security analysis including dependency vulnerability checks, code security scans, and container image scanning using tools like Snyk and Trivy.
 
-### 🐳 Docker Build & Validation
-Multi-stage Docker build process that creates optimized container images for all services, followed by image validation and security scanning.
 
 ### 📦 DeploymentDevOps-project/
 ├── .github/
