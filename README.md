@@ -47,6 +47,7 @@ PassOp follows a modern full-stack architecture with a React-based frontend depl
 
 ### 📁 Project Structure
 
+```text
 DevOps-project/
 ├── .github/
 │   └── workflows/
@@ -88,6 +89,7 @@ DevOps-project/
 ├── tailwind.config.js
 ├── vite.config.js
 └── README.md
+```
 
 ---
 
