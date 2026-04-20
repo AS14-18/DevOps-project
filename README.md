@@ -47,32 +47,15 @@ PassOp follows a modern full-stack architecture with a React-based frontend depl
 
 ### 📁 Project Structure
 
-```
-
-```
-
----
-
-## 🚀 CI/CD Pipeline Explanation
-
-### ✅ Backend & Frontend Build and Tests
-Automated testing phase that runs unit tests, integration tests, and linting for both frontend and backend codebases. Ensures code quality and prevents regressions before deployment.
-
-### 🔒 Security Scanning
-Comprehensive security analysis including dependency vulnerability checks, code security scans, and container image scanning using tools like Snyk and Trivy.
-
-
-### 📦 DeploymentDevOps-project/
+DevOps-project/
 ├── .github/
 │   └── workflows/
 │       └── ci.yml                 # CI/CD pipeline (GitHub Actions)
 
 ├── backend/                       # Main backend (Express.js API)
-│   ├── node_modules/
 │   ├── .env
 │   ├── .env.example
 │   ├── package.json
-│   ├── package-lock.json
 │   └── server.js
 
 ├── nodejs-auth/                   # Authentication service
@@ -81,9 +64,7 @@ Comprehensive security analysis including dependency vulnerability checks, code 
 │   ├── middleware/
 │   ├── models/
 │   ├── routes/
-│   ├── .gitignore
 │   ├── package.json
-│   ├── package-lock.json
 │   └── server.js
 
 ├── public/                        # Static assets
@@ -99,17 +80,31 @@ Comprehensive security analysis including dependency vulnerability checks, code 
 │   └── main.jsx
 
 ├── .gitignore
-├── index.html                     # Entry HTML
-├── package.json                   # Frontend dependencies
+├── index.html
+├── package.json
 ├── package-lock.json
 ├── eslint.config.js
 ├── postcss.config.js
 ├── tailwind.config.js
 ├── vite.config.js
-├── README.md
-Automated deployment to staging and production environments with blue-green deployment strategy, health checks, and rollback capabilities.
+└── README.md
 
 ---
+
+## 🚀 CI/CD Pipeline Explanation
+
+### ✅ Backend & Frontend Build and Tests
+Automated testing phase that runs unit tests, integration tests, and linting for both frontend and backend codebases. Ensures code quality and prevents regressions before deployment.
+
+### 🔒 Security Scanning
+Includes dependency vulnerability checks and basic code security analysis using tools integrated in the CI pipeline.
+
+### 📦 Deployment
+Automated deployment to production:
+- Frontend → Vercel
+- Backend → Render  
+
+Ensures continuous delivery with minimal manual intervention.
 
 ## 🌿 Git Workflow
 
@@ -166,10 +161,10 @@ PassOp uses a feature branch workflow with Git Flow principles, ensuring clean c
 ## 🎯 Challenges Faced & Solutions
 
 ### 🔴 Challenge 1: Database Connection Issues
-🚫 **Problem:** Initial MongoDB connection failures in containerized environment due to network configuration and environment variables.
-**Root Cause:** Improper Docker network setup and missing environment variable handling.
-✅ **Solution:** Implemented Docker Compose with proper network configuration and centralized environment management using .env files.
-🎉 **Outcome:** Stable database connections across all environments with 99.9% uptime.
+🚫 **Problem:** MongoDB connection issues due to incorrect environment variables and connection strings.
+**Root Cause:** Improper configuration of environment variables between local and production environments.
+✅ **Solution:** Standardized environment variables using `.env` files and updated connection handling for cloud deployment (MongoDB Atlas).
+🎉 **Outcome:** Stable database connectivity across development and production.
 
 ### 🔴 Challenge 2: Authentication Security
 🚫 **Problem:** Weak password hashing and session management leading to potential security vulnerabilities.
